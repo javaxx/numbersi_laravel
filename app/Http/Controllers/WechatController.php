@@ -13,7 +13,6 @@ class WechatController extends Controller
     //
     public function messages()
     {
-        dd(Log::hasLogger());
         $options = [
             'mini_program' => [
                 'app_id'   => 'wxb72422fd69462f07',
