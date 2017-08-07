@@ -31,7 +31,7 @@ class WechatController extends Controller
             return "您好！欢迎关注我!";
         });
         $response = $server->serve();
-        $response->send(); // Laravel 里请使用：return $response;
+        return $response; // Laravel 里请使用：return $response;
 
     }
 }
