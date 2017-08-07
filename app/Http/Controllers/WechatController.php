@@ -22,6 +22,10 @@ class WechatController extends Controller
                 'token'    => 'numbersixiaochengxu',
                 'aes_key'  => '0LIG32mcr6L82t2NJQs8cXO1TmmXWrcVGU6rBtTiQTf'
             ],
+            'log' => [
+                'level' => 'debug',
+                'file'  => '/tmp/easywechat.log',
+            ],
         ];
 
 
