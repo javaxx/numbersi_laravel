@@ -27,8 +27,6 @@ class WechatController extends Controller
             ],
         ];
         $app = new Application($options);
-        $miniProgram = $app->mini_program;
-        $miniProgram->staff->message();
         $server = $app->server;
 
         $server->setMessageHandler(function ($message){
