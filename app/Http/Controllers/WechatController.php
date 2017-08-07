@@ -26,10 +26,6 @@ class WechatController extends Controller
                 'file'  => '/tmp/easywechat.log',
             ],
         ];
-
-
-
-
         $app = new Application($options);
         $miniProgram = $app->mini_program;
         $miniProgram->staff->message();
