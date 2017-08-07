@@ -14,9 +14,7 @@ class WechatController extends Controller
     public function messages()
     {
 
-
-
-
+        Storage::disk('local')->put('file.txt', 'request()');
 
         $options = [
             'debug'     => true,
