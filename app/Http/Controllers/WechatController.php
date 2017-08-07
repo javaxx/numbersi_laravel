@@ -7,6 +7,7 @@ use EasyWeChat\Message\Text;
 use EasyWeChat\Support\Log;
 use Illuminate\Http\Request;
 use EasyWeChat\Foundation\Application;
+use Illuminate\Support\Facades\Storage;
 
 class WechatController extends Controller
 {
