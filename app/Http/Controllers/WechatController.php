@@ -2,12 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Server\TestServer;
+use EasyWeChat\Message\Text;
 use Illuminate\Http\Request;
 use EasyWeChat\Foundation\Application;
 
 class WechatController extends Controller
 {
     //
+    public function messages()
+    {
+        $options = [
+            'debug'     => true,
+            'app_id'    => 'wxb72422fd69462f07',
+            'secret'    => '906b20f53e6d206d8dabda783b699c6a',
+            'token'     => 'numbersixiaochengxu',
+            'log' => [
+                'level' => 'debug',
+                'file'  => '/tmp/easywechat.log',
+            ],
+            // ...
+        ];
+
+
+
+        $app = new Application($options);
+        return $app->server->serve();
+
+    }
     public function wechat()
     {
         $options = [
@@ -60,10 +82,28 @@ class WechatController extends Controller
 
 
 
-        $menu = $app->menu;
-        $menu->destroy();
         $response = $server->serve();
         return $response; // Laravel 里请使用：return $response;
 
     }
+    public function addMenu(){
+        $options = [
+            'debug'     => true,
+            'app_id'    => 'wx6b2b1a8cc619de79',
+            'secret'    => 'c4212df8b8902783840a4cee8aa42730',
+            'token'     => 'weixin',
+            'log' => [
+                'level' => 'debug',
+                'file'  => '/tmp/easywechat.log',
+            ],
+            // ...
+        ];
+        $app = new Application($options);
+
+        $message = new Text(['content' => 'Hello world!']);
+        $result = $app->staff->message($message)->to("oPNmtt-xrda9Ye_jrqch2vSxhIcg")->send();
+//...
+
+    }
+
 }
