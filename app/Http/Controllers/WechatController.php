@@ -14,27 +14,27 @@ class WechatController extends Controller
     public function messages()
     {
         $options = [
-            'mini_program' => [
-                'app_id'   => 'wxb72422fd69462f07',
-                'secret'   => '906b20f53e6d206d8dabda783b699c6a',
-                // token 和 aes_key 开启消息推送后可见
-                'token'    => 'numbersixiaochengxu',
-                'aes_key'  => '0LIG32mcr6L82t2NJQs8cXO1TmmXWrcVGU6rBtTiQTf'
-            ],
+            'debug'     => true,
+            'app_id'    => 'wxb72422fd69462f07',
+            'secret'    => '906b20f53e6d206d8dabda783b699c6a',
+            'token'     => 'numbersixiaochengxu',
             'log' => [
                 'level' => 'debug',
                 'file'  => '/tmp/easywechat.log',
             ],
+            // ...
         ];
         $app = new Application($options);
-        $server = $app->server;
 
-        $server->setMessageHandler(function ($message){
+        // 从项目实例中得到服务端应用实例。
+        $userApi = $app->user;
+        $server = $app->server;
+        $server->setMessageHandler(function ($message) use ($userApi){
             // $message->FromUserName // 用户的 openid
             // $message->MsgType // 消息类型：event, text....
             switch ($message->MsgType) {
                 case 'event':
-                    return '你好';
+                    return '你好'. $userApi->get($message-->FromUserName)->nickname;
                     break;
                 case 'text':
                     return '收到文字消息';
@@ -60,7 +60,11 @@ class WechatController extends Controller
                     break;
             }
         });
-return $server->serve();
+
+
+
+        $response = $server->serve();
+        return $response; // Laravel 里请使用：return $response;
     }
     public function wechat()
     {
