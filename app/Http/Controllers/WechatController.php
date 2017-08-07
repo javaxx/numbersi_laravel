@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Server\TestServer;
 use EasyWeChat\Message\Text;
+use EasyWeChat\Support\Log;
 use Illuminate\Http\Request;
 use EasyWeChat\Foundation\Application;
 
@@ -12,22 +13,23 @@ class WechatController extends Controller
     //
     public function messages()
     {
+        dd(Log::hasLogger());
         $options = [
-            'debug'     => true,
-            'app_id'    => 'wxb72422fd69462f07',
-            'secret'    => '906b20f53e6d206d8dabda783b699c6a',
-            'token'     => 'numbersixiaochengxu',
-            'log' => [
-                'level' => 'debug',
-                'file'  => '/tmp/easywechat.log',
+            'mini_program' => [
+                'app_id'   => 'wxb72422fd69462f07',
+                'secret'   => '906b20f53e6d206d8dabda783b699c6a',
+                // token 和 aes_key 开启消息推送后可见
+                'token'    => 'numbersixiaochengxu',
+                'aes_key'  => '0LIG32mcr6L82t2NJQs8cXO1TmmXWrcVGU6rBtTiQTf'
             ],
-            // ...
         ];
 
 
 
-        $app = new Application($options);
 
+        $app = new Application($options);
+        $miniProgram = $app->mini_program;
+        $miniProgram->staff->message();
         $server = $app->server;
 
         $server->setMessageHandler(function ($message){
