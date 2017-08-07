@@ -13,6 +13,11 @@ class WechatController extends Controller
     //
     public function messages()
     {
+
+
+
+
+
         $options = [
             'debug'     => true,
             'app_id'    => 'wxb72422fd69462f07',
@@ -26,7 +31,6 @@ class WechatController extends Controller
         ];
         $app = new Application($options);
 
-        // 从项目实例中得到服务端应用实例。
         $userApi = $app->user;
         $server = $app->server;
         $server->setMessageHandler(function ($message) use ($userApi){
