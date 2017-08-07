@@ -8,9 +8,7 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-{{--
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
---}}
 
         <!-- Styles -->
         <style>
@@ -68,23 +66,30 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
+            @if (Route::has('login'))
+                <div class="top-right links">
+                    @if (Auth::check())
+                        <a href="{{ url('/home') }}">Home</a>
+                    @else
+                        <a href="{{ url('/login') }}">Login</a>
+                        <a href="{{ url('/register') }}">Register</a>
+                    @endif
+                </div>
+            @endif
+
             <div class="content">
                 <div class="title m-b-md">
-                    <img src="http://a1.qpic.cn/psb?/19a15519-debd-4edf-94a2-d455db0f31f6/jFkUr5a9IutvPa.o6sUTJWCtwoC10kZMEO5yF1rQgBQ!/b/dHUAAAAAAAAA&bo=SgFFAQAAAAARBz8!&rf=viewer_4" alt="">
-
+                    Laravel
                 </div>
-                <p class="">扫一扫,添加小程序</p>
+
                 <div class="links">
-                    <a href="/posts">文章</a>
-                    <a href="http://weibo.com/1686488670" alt>Weibo</a>
-                    <a href="https://github.com/javaxx">GitHub</a>
+                    <a href="https://laravel.com/docs">Documentation</a>
+                    <a href="https://laracasts.com">Laracasts</a>
+                    <a href="https://laravel-news.com">News</a>
+                    <a href="https://forge.laravel.com">Forge</a>
+                    <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
             </div>
         </div>
-        <footer class="footer navbar-fixed-bottom ">
-            <div class="content">
-                豫ICP备17025345号-1  @NumberSi
-            </div>
-        </footer>
     </body>
 </html>
