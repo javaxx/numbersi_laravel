@@ -28,8 +28,8 @@ class WechatController extends Controller
         $app = new Application($options);
         $message = file_get_contents('php://input');
         $message = simplexml_load_string($message, 'SimpleXMLElement', LIBXML_NOCDATA);
-        $message = new Text(['content' => 'Hello world!']);
-        $result = $app->staff->message($message)->to( $message->ToUserName)->send();
+        $messageaaa = new Text(['content' => 'Hello world!']);
+        $result = $app->staff->message($messageaaa)->to(trim($message->ToUserName) )->send();
     }
     public function wechat()
     {
