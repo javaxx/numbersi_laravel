@@ -50,13 +50,14 @@ class WechatController extends Controller
             ],
             // ...
         ];
+        $FromUserName = \request()->FromUserName;
         $app = new Application($options);
 
         // 从项目实例中得到服务端应用实例。
         $userApi = $app->user;
 
         $server = $app->server;
-        $server->setMessageHandler(function ($message) use ($userApi){
+        $server->setMessageHandler(function ($message) use ($userApi,$FromUserName){
             // $message->FromUserName // 用户的 openid
             // $message->MsgType // 消息类型：event, text....
             switch ($message->MsgType) {
@@ -64,7 +65,7 @@ class WechatController extends Controller
                     return '你好'. $userApi->get($message-->FromUserName)->nickname;
                     break;
                 case 'text':
-                    return '收到文字消息';
+                    return '收到文字消息'.$FromUserName;
                     break;
                 case 'image':
                     return '收到图片消息';
