@@ -26,49 +26,10 @@ class WechatController extends Controller
             ],
         ];
         $app = new Application($options);
-
-        // 从项目实例中得到服务端应用实例。
-        $userApi = $app->user;
-
-        $server = $app->server;
-        $server->setMessageHandler(function ($message) use ($userApi,$app){
-            // $message->FromUserName // 用户的 openid
-            // $message->MsgType // 消息类型：event, text....
-            switch ($message->MsgType) {
-                case 'event':
-                    return '你好'. $userApi->get($message-->FromUserName)->nickname;
-                    break;
-                case 'text':
-                    $message = new Text(['content' => 'Hello world!']);
-
-                    $result = $app->staff->message($message)->to("oPNmtt-xrda9Ye_jrqch2vSxhIcg")->send();
-                    break;
-                case 'image':
-                    return '收到图片消息';
-                    break;
-                case 'voice':
-                    return '收到语音消息';
-                    break;
-                case 'video':
-                    return '收到视频消息';
-                    break;
-                case 'location':
-                    return '收到坐标消息';
-                    break;
-                case 'link':
-                    return '收到链接消息';
-                    break;
-                // ... 其它消息
-                default:
-                    return '收到其它消息';
-                    break;
-            }
-        });
-
-
-
-        $response = $server->serve();
-        return $response; // Laravel 里请使用：return $response;
+        $message = file_get_contents('php://input');
+        $message = simplexml_load_string($message, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $message = new Text(['content' => 'Hello world!']);
+        $result = $app->staff->message($message)->to( $message->ToUserName)->send();
     }
     public function wechat()
     {
