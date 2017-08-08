@@ -5,14 +5,36 @@ namespace App\Http\Controllers;
 use DOMDocument;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Message\Text;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 
 class WechatController extends Controller
 {
     //
     public function messages()
     {
+       $FromUserName = \request()->FromUserName;
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=EivLg5dIbHIKVVary_tJRPtZsCSwc68QV079ZRGDUB8u9hPysM0Ak1ZQZyQn2AyRUgeK-aPPHAiwi_OeMSpU5tAP7aQfRwwuWnyGlM0Z4uNSeJ-OToLbZXD9f3PK0ADAZWBiAFAEBG';
+        $message = ["touser" => "OPENID",
 
-        return 'success';
+            "msgtype" => "text",
+            "text" => [
+                "content" => "Hello World",
+            ]
+        ];
+
+        $message = json_encode($message);
+
+        $http = new Client;
+        $response = $http->post($url, [
+            'form_params' => [
+                'touser' => $FromUserName,
+                'msgtype' => 'text',
+                'text' =>["content" => "Hello World"]
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
 
     }
     public function wechat()
