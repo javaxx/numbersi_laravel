@@ -42,8 +42,7 @@ class WechatController extends Controller
                     break;
                 case 'text':
                     $messagea = new Text(['content' => 'Hello world!']);
-
-                    $staff->message($messagea)->to('oZaLq0EEFIVm7fQTYH6z6awld>sj0U')-send();
+                    $staff->message($messagea)->to('oZaLq0EEFIVm7fQTYH6z6awldj0U')->send();
                     break;
                 case 'image':
                     return '收到图片消息';
