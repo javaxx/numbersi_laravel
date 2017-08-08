@@ -65,7 +65,7 @@ class WechatController extends Controller
                     return '你好'. $userApi->get($message-->FromUserName)->nickname;
                     break;
                 case 'text':
-                    return '收到文字消息' . $FromUserName . "ddd";
+                    return '收到文字消息' .request();
                     break;
                 case 'image':
                     return '收到图片消息';
