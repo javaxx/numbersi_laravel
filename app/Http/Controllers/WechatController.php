@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Server\TestServer;
-use EasyWeChat\Message\Text;
-use EasyWeChat\Support\Log;
-use Illuminate\Http\Request;
+use DOMDocument;
 use EasyWeChat\Foundation\Application;
-use Illuminate\Support\Facades\Storage;
+use EasyWeChat\Message\Text;
 
 class WechatController extends Controller
 {
@@ -15,59 +12,8 @@ class WechatController extends Controller
     public function messages()
     {
 
-        Storage::disk('local')->put('file.txt', 'request()');
+        return 'success';
 
-        $options = [
-            'debug'     => true,
-            'app_id'    => 'wxb72422fd69462f07',
-            'secret'    => '906b20f53e6d206d8dabda783b699c6a',
-            'token'     => 'numbersixiaochengxu',
-            'log' => [
-                'level' => 'debug',
-                'file'  => '/tmp/easywechat.log',
-            ],
-            // ...
-        ];
-        $app = new Application($options);
-
-        $userApi = $app->user;
-        $server = $app->server;
-        $server->setMessageHandler(function ($message) use ($userApi){
-            // $message->FromUserName // 用户的 openid
-            // $message->MsgType // 消息类型：event, text....
-            switch ($message->MsgType) {
-                case 'event':
-                    return '你好'. $userApi->get($message-->FromUserName)->nickname;
-                    break;
-                case 'text':
-                    return '收到文字消息';
-                    break;
-                case 'image':
-                    return '收到图片消息';
-                    break;
-                case 'voice':
-                    return '收到语音消息';
-                    break;
-                case 'video':
-                    return '收到视频消息';
-                    break;
-                case 'location':
-                    return '收到坐标消息';
-                    break;
-                case 'link':
-                    return '收到链接消息';
-                    break;
-                // ... 其它消息
-                default:
-                    return '收到其它消息';
-                    break;
-            }
-        });
-
-
-
-        $response = $server->serve();
-        return $response; // Laravel 里请使用：return $response;
     }
     public function wechat()
     {
@@ -86,6 +32,7 @@ class WechatController extends Controller
 
         // 从项目实例中得到服务端应用实例。
         $userApi = $app->user;
+
         $server = $app->server;
         $server->setMessageHandler(function ($message) use ($userApi){
             // $message->FromUserName // 用户的 openid
