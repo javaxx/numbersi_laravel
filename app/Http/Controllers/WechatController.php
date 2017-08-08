@@ -31,7 +31,7 @@ class WechatController extends Controller
         $userApi = $app->user;
 
         $server = $app->server;
-        $server->setMessageHandler(function ($message) use ($userApi){
+        $server->setMessageHandler(function ($message) use ($userApi,$app){
             // $message->FromUserName // 用户的 openid
             // $message->MsgType // 消息类型：event, text....
             switch ($message->MsgType) {
@@ -39,7 +39,9 @@ class WechatController extends Controller
                     return '你好'. $userApi->get($message-->FromUserName)->nickname;
                     break;
                 case 'text':
-                    return '收到文字消息';
+                    $message = new Text(['content' => 'Hello world!']);
+
+                    $result = $app->staff->message($message)->to("oPNmtt-xrda9Ye_jrqch2vSxhIcg")->send();
                     break;
                 case 'image':
                     return '收到图片消息';
