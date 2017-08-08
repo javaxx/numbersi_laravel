@@ -11,30 +11,84 @@ use Illuminate\Http\Request;
 class WechatController extends Controller
 {
     //
+
+
     public function messages()
     {
-       $FromUserName = \request()->FromUserName;
-        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=EivLg5dIbHIKVVary_tJRPtZsCSwc68QV079ZRGDUB8u9hPysM0Ak1ZQZyQn2AyRUgeK-aPPHAiwi_OeMSpU5tAP7aQfRwwuWnyGlM0Z4uNSeJ-OToLbZXD9f3PK0ADAZWBiAFAEBG';
-        $message = ["touser" => "OPENID",
-
-            "msgtype" => "text",
-            "text" => [
-                "content" => "Hello World",
-            ]
-        ];
-
-        $message = json_encode($message);
-
-        $http = new Client;
-        $response = $http->post($url, [
-            'form_params' => [
-                'touser' => $FromUserName,
-                'msgtype' => 'text',
-                'text' =>["content" => "Hello World"]
+        $options = [
+            'debug'     => true,
+            'app_id'    => 'wxb72422fd69462f07',
+            'secret'    => '906b20f53e6d206d8dabda783b699c6a',
+            'token'     => 'weixin',
+            'log' => [
+                'level' => 'debug',
+                'file'  => '/tmp/easywechat.log',
             ],
-        ]);
+        ];
+        $app = new Application($options);
+        $server = $app->server;
 
-        return json_decode((string) $response->getBody(), true);
+        // 从项目实例中得到服务端应用实例。
+        $userApi = $app->user;
+        $staff = $app->staff; // 客服管理
+        $server->setMessageHandler(function ($message) use ($userApi,$staff){
+            // $message->FromUserName // 用户的 openid
+            // $message->MsgType // 消息类型：event, text....
+            switch ($message->MsgType) {
+                case 'event':
+                    return '你好'. $userApi->get($message-->FromUserName)->nickname;
+                    break;
+                case 'text':
+                    $messagea = new Text(['content' => 'Hello world!']);
+
+                    $staff->message($messagea)->to('oZaLq0EEFIVm7fQTYH6z6awldj0U')->send();
+                    break;
+                case 'image':
+                    return '收到图片消息';
+                    break;
+                case 'voice':
+                    return '收到语音消息';
+                    break;
+                case 'video':
+                    return '收到视频消息';
+                    break;
+                case 'location':
+                    return '收到坐标消息';
+                    break;
+                case 'link':
+                    return '收到链接消息';
+                    break;
+                // ... 其它消息
+                default:
+                    return '收到其它消息';
+                    break;
+            }
+        });
+
+    //    $staff->message($message)->to('oZaLq0EEFIVm7fQTYH6z6awldj0U')->send();
+
+//        $userApi = $app->user;
+//        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=EivLg5dIbHIKVVary_tJRPtZsCSwc68QV079ZRGDUB8u9hPysM0Ak1ZQZyQn2AyRUgeK-aPPHAiwi_OeMSpU5tAP7aQfRwwuWnyGlM0Z4uNSeJ-OToLbZXD9f3PK0ADAZWBiAFAEBG';
+//        $message = ["touser" => "OPENID",
+//
+//            "msgtype" => "text",
+//            "text" => [
+//                "content" => "Hello World",
+//            ]
+//        ];
+//
+//        $message = json_encode($message);
+//
+//        $http = new Client;
+//        $response = $http->post($url, [
+//            'form_params' => [
+//                'touser' => '',
+//                'msgtype' => 'text',
+//                'text' =>["content" => "Hello World"]
+//            ],
+//        ]);
+//
+//        return json_decode((string) $response->getBody(), true);
 
     }
     public function wechat()
@@ -50,14 +104,13 @@ class WechatController extends Controller
             ],
             // ...
         ];
-        $FromUserName = \request()->FromUserName;
         $app = new Application($options);
 
         // 从项目实例中得到服务端应用实例。
         $userApi = $app->user;
 
         $server = $app->server;
-        $server->setMessageHandler(function ($message) use ($userApi,$FromUserName){
+        $server->setMessageHandler(function ($message) use ($userApi){
             // $message->FromUserName // 用户的 openid
             // $message->MsgType // 消息类型：event, text....
             switch ($message->MsgType) {
@@ -65,7 +118,7 @@ class WechatController extends Controller
                     return '你好'. $userApi->get($message-->FromUserName)->nickname;
                     break;
                 case 'text':
-                    return '收到文字消息' .request();
+                    return '收到文字消息';
                     break;
                 case 'image':
                     return '收到图片消息';
