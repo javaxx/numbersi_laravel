@@ -26,14 +26,12 @@ class WechatController extends Controller
             ],
         ];
         $app = new Application($options);
-        $server = $app->server;
 
         // 从项目实例中得到服务端应用实例。
         $userApi = $app->user;
-        $staff = $app->staff; // 客服管理
 
-
-        $server->setMessageHandler(function ($message) use ($userApi,$staff){
+        $server = $app->server;
+        $server->setMessageHandler(function ($message) use ($userApi){
             // $message->FromUserName // 用户的 openid
             // $message->MsgType // 消息类型：event, text....
             switch ($message->MsgType) {
@@ -41,8 +39,7 @@ class WechatController extends Controller
                     return '你好'. $userApi->get($message-->FromUserName)->nickname;
                     break;
                 case 'text':
-                    $messagea = new Text(['content' => 'Hello world!']);
-                    $staff->message($messagea)->to('oZaLq0EEFIVm7fQTYH6z6awldj0U')->send();
+                    return '收到文字消息';
                     break;
                 case 'image':
                     return '收到图片消息';
@@ -66,31 +63,10 @@ class WechatController extends Controller
             }
         });
 
-    //    $staff->message($message)->to('oZaLq0EEFIVm7fQTYH6z6awldj0U')->send();
 
-//        $userApi = $app->user;
-//        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=EivLg5dIbHIKVVary_tJRPtZsCSwc68QV079ZRGDUB8u9hPysM0Ak1ZQZyQn2AyRUgeK-aPPHAiwi_OeMSpU5tAP7aQfRwwuWnyGlM0Z4uNSeJ-OToLbZXD9f3PK0ADAZWBiAFAEBG';
-//        $message = ["touser" => "OPENID",
-//
-//            "msgtype" => "text",
-//            "text" => [
-//                "content" => "Hello World",
-//            ]
-//        ];
-//
-//        $message = json_encode($message);
-//
-//        $http = new Client;
-//        $response = $http->post($url, [
-//            'form_params' => [
-//                'touser' => '',
-//                'msgtype' => 'text',
-//                'text' =>["content" => "Hello World"]
-//            ],
-//        ]);
-//
-//        return json_decode((string) $response->getBody(), true);
 
+        $response = $server->serve();
+        return $response; // Laravel 里请使用：return $response;
     }
     public function wechat()
     {
